@@ -39,7 +39,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir : ~/tomcat/webapps/
+          server-dir : ~/tomcat/webapps/
   
   Restart-Server:
     needs: upload
