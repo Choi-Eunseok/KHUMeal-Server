@@ -45,19 +45,20 @@ jobs:
     needs: upload
     runs-on: ubuntu-latest
     steps:
-      - name: Shutdown Server
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+    
+      - name: Restart Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          script: ~/tomcat/bin/shutdown.sh
-
-      - name: Start Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          script: ~/tomcat/bin/startup.sh
+          script_stop: true
+          script: |
+            ~/tomcat/bin/shutdown.sh
+            ~/tomcat/bin/startup.sh
     
