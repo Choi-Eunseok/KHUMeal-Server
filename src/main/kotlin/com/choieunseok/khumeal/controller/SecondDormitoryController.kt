@@ -14,12 +14,6 @@ class SecondDormitoryController(
     val service: SecondDormitoryService,
     val logger: Logger
 ) {
-
-    @GetMapping(path = ["ping", "ping/"])
-    fun hello(): String {
-        return "pong"
-    }
-
     @GetMapping(path = ["", "/"])
     fun get(): JsonNode {
         val data = service.getSecondDormitoryModel()
