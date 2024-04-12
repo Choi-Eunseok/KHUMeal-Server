@@ -11,7 +11,10 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
+
+    - name: Change Gradle Command Permission
+      run: chmod +x ./gradlew
+      
     - name: Build with Gradle
       run: ./gradlew bootWar
       
