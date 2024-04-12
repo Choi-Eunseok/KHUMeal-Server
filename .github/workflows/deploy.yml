@@ -39,25 +39,22 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir : ~/tomcat/webapps/
+          server-dir : ./tomcat/webapps/
   
   Restart-Server:
     needs: upload
     runs-on: ubuntu-latest
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-    
       - name: Restart Server
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          JAVA_HOME: "/usr/local/jdk17"
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           script_stop: true
+          envs: JAVA_HOME
           script: |
             ~/tomcat/bin/shutdown.sh
             ~/tomcat/bin/startup.sh
