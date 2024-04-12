@@ -1,5 +1,5 @@
 on: push
-name: 🚀 Deploy website on push
+name: 🚀 Deploy Website on Push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -7,7 +7,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4.2.1
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -15,10 +15,10 @@ jobs:
     - name: Change Gradle Command Permission
       run: chmod +x ./gradlew
       
-    - name: Build with Gradle
+    - name: Build war with Gradle
       run: ./gradlew bootWar
       
-    - name: Upload artifact
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4.3.1
       with:
         name: cicdsample
@@ -28,7 +28,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifact
+      - name: Download Artifact
         uses: actions/download-artifact@v4.1.4
         with:
           name: cicdsample
