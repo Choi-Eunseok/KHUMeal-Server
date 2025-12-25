@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # 초기 구축 시에는 update, 운영 시에는 validate 권장
+    show-sql: true
+
+grpc:
+  client:
+    menu-server:
+      address: ${GRPC_SERVER_ADDRESS}
+      negotiation-type: plaintext
+      max-inbound-message-size: 20971520
