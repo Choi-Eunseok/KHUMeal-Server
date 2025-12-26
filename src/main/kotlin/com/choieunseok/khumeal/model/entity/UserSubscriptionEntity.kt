@@ -28,4 +28,4 @@ class UserSubscriptionEntity(
 
     @Column(name = "time")
     val time: LocalTime? = null
-)
+) : BaseTimeEntity()

@@ -25,4 +25,4 @@ class UserHighlightEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_item_uuid")
     val menuItem: MenuItemEntity
-)
+) : BaseTimeEntity()

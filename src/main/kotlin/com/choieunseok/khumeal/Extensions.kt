@@ -1,60 +1,24 @@
 package com.choieunseok.khumeal
 
-import com.fasterxml.jackson.databind.JsonNode
-import java.text.SimpleDateFormat
-import java.util.*
+import com.choieunseok.khumeal.model.entity.MenuInfoEntity
+import java.time.LocalDate
 
-fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
-    val formatter = SimpleDateFormat(format, locale)
-    return formatter.format(this)
+fun getWeekRange(baseDate: LocalDate): Pair<LocalDate, LocalDate> {
+    val dayOfWeek = baseDate.dayOfWeek.value % 7 // 일=0, 월=1 ... 토=6
+    val saturday = if (dayOfWeek == 6) baseDate else baseDate.minusDays(dayOfWeek + 1L)
+    val friday = saturday.plusDays(6)
+    return Pair(saturday, friday)
 }
 
-fun Date.getDayOfWeek(): Int {
-    val calendar = Calendar.getInstance()
-    calendar.time = this
-    return calendar.get(Calendar.DAY_OF_WEEK)
-}
+private val INVALID_CORNER_KEYWORDS = setOf("One", "교직원 비빔코너", "학생식당 중식 Self")
 
-fun Date.isThisWeek(): Boolean {
-    val calendar = Calendar.getInstance()
-//    calendar.add(Calendar.DATE, -7)
+fun MenuInfoEntity.hasValidCorner(): Boolean {
+    val name = this.cornerInfo.trim()
 
-    calendar.add(Calendar.DATE, -(calendar.time.getDayOfWeek() % 6))
-    val startDay = calendar.time
-
-    val dateList = mutableListOf<String>()
-    var tempDate = startDay
-    for (i in 0..6) {
-        dateList.add(tempDate.toString("yyyy-MM-dd"))
-        val tempCalendar = Calendar.getInstance()
-        tempCalendar.time = tempDate
-        tempCalendar.add(Calendar.DAY_OF_MONTH, 1)
-        tempDate = tempCalendar.time
+    return when {
+        name.isBlank() -> false
+        name.length < 2 -> false
+        INVALID_CORNER_KEYWORDS.any { name == it } -> false
+        else -> true
     }
-
-    return dateList.contains(this.toString("yyyy-MM-dd"))
-}
-
-fun String.toDateWithFormat(format: String): Date {
-    val formatter = SimpleDateFormat(format)
-    return formatter.parse(this)
-}
-
-fun JsonNode.toNullableString(): String? {
-    if (this.isNull)
-        return null
-    return this.asText()
-}
-
-fun Map<*, *>.toPrettyString(newLine: String, leftPadding: Int = 0): String {
-    val sb = StringBuilder()
-    for (entry: Map.Entry<*, *> in this.entries) {
-        if (entry.value is Map<*, *>) {
-            sb.append("%${8}s".format(entry.key))
-            (entry.value as Map<*, *>).toPrettyString(newLine, leftPadding + 4)
-        } else {
-            sb.append(" ".repeat(leftPadding) + "%${8}s : %s$newLine".format(entry.key, entry.value))
-        }
-    }
-    return sb.toString()
 }

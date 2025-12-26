@@ -8,4 +8,4 @@ class UsersEntity(
     @Id
     @Column(name = "user_id")
     val userId: String
-)
+) : BaseTimeEntity()

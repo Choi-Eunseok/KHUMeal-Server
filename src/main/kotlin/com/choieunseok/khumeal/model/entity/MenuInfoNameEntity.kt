@@ -18,4 +18,4 @@ class MenuInfoNameEntity (
 
     @Column(name = "base_url", nullable = false)
     val baseUrl: String
-)
+) : BaseTimeEntity()

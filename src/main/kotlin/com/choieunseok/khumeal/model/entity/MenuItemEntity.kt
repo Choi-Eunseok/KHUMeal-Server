@@ -21,4 +21,4 @@ class MenuItemEntity(
 
     @Column(name = "menu_item", nullable = false)
     val menuItem: String
-)
+) : BaseTimeEntity()

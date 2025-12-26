@@ -26,5 +26,8 @@ class MenuInfoEntity(
     @Lob
     @JdbcType(BinaryJdbcType::class)
     @Column(name = "image")
-    val image: ByteArray? = null
-)
+    val image: ByteArray? = null,
+
+    @OneToMany(mappedBy = "menuInfo", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    val menuItems: List<MenuItemEntity> = mutableListOf()
+) : BaseTimeEntity()

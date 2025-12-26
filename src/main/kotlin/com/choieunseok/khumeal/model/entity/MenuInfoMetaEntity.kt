@@ -26,4 +26,4 @@ class MenuInfoMetaEntity(
 
     @Column(name = "prev_board_id", length = 100, nullable = false)
     val prevBoardId: String
-)
+) : BaseTimeEntity()
