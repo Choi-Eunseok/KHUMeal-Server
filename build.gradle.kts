@@ -61,7 +61,7 @@ tasks.withType<Test> {
 }
 
 springBoot {
-    mainClass = "com.choieunseok.khumeal.Main"
+    mainClass.set("com.choieunseok.khumeal.KhumealApplicationKt")
 }
 
 tasks.getByName<BootWar>("bootWar") {
