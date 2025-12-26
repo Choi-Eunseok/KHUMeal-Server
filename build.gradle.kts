@@ -60,10 +60,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-springBoot {
-    mainClass.set("com.choieunseok.khumeal.KhumealApplicationKt")
-}
-
 tasks.getByName<BootWar>("bootWar") {
     archiveBaseName = "ROOT"
     archiveFileName = "ROOT.war"
