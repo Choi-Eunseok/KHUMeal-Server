@@ -18,8 +18,9 @@ interface MenuInfoRepository : JpaRepository<MenuInfoEntity, UUID> {
         JOIN FETCH mim.menuInfoName min
         WHERE min.menuInfoNameId = :nameId 
         AND mi.date BETWEEN :startDate AND :endDate
+        ORDER BY mi.createdAt
     """)
-    fun findByNameIdAndDateRange(nameId: Int, startDate: LocalDate, endDate: LocalDate): List<MenuInfoEntity>
+    fun findByNameIdAndDateRangeOrderByCreatedAt(nameId: Int, startDate: LocalDate, endDate: LocalDate): List<MenuInfoEntity>
 
     @Query("""
     SELECT DISTINCT mi FROM MenuInfoEntity mi 
@@ -28,7 +29,8 @@ interface MenuInfoRepository : JpaRepository<MenuInfoEntity, UUID> {
     JOIN FETCH mim.menuInfoName min
     WHERE min.menuInfoNameId = :nameId 
     AND mi.date = :date
+    ORDER BY mi.createdAt
     """)
-    fun findByNameIdAndDate(nameId: Int, date: LocalDate): List<MenuInfoEntity>
+    fun findByNameIdAndDateOrderByCreatedAt(nameId: Int, date: LocalDate): List<MenuInfoEntity>
 
 }
