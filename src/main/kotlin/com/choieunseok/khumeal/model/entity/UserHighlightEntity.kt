@@ -6,8 +6,14 @@ import java.util.UUID
 
 @Embeddable
 data class UserHighlightId(
+    @Column(name = "user_id")
     val userId: String = "",
-    val menuItemUuid: UUID = UUID.randomUUID()
+
+    @Column(name = "menu_item_uuid")
+    val menuItemUuid: UUID = UUID.randomUUID(),
+
+    @Column(name = "menu_index")
+    val menuIndex: Int = 0
 ) : Serializable
 
 @Entity

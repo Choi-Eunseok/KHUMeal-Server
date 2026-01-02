@@ -2,12 +2,21 @@ package com.choieunseok.khumeal.repository
 
 import com.choieunseok.khumeal.model.entity.UserHighlightEntity
 import com.choieunseok.khumeal.model.entity.UserHighlightId
-import com.choieunseok.khumeal.model.entity.UsersEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface UserHighlightRepository : JpaRepository<UserHighlightEntity, UserHighlightId> {
-    // 특정 사용자의 모든 하이라이트 목록 가져오기
-    fun findAllByUser(user: UsersEntity): List<UserHighlightEntity>
+
+    @Query("""
+        SELECT h
+        FROM UserHighlightEntity h
+        WHERE h.id.userId = :userId
+        AND h.id.menuItemUuid
+        IN :uuids
+""")
+    fun findAllByUserIdAndMenuItemUuids(userId: String, uuids: List<UUID>): List<UserHighlightEntity>
+
 }
