@@ -1,6 +1,6 @@
 package com.choieunseok.khumeal.controller
 
-import com.choieunseok.khumeal.model.dto.MenuItem
+import com.choieunseok.khumeal.model.dto.MenuInfo
 import com.choieunseok.khumeal.model.dto.MenuResponse
 import com.choieunseok.khumeal.service.MenuService
 import org.springframework.format.annotation.DateTimeFormat
@@ -19,7 +19,7 @@ class MenuController(
         @PathVariable nameId: Int,
         @RequestParam(required = false)
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) date: LocalDate?
-    ): ResponseEntity<List<MenuItem>> {
+    ): ResponseEntity<List<MenuInfo>> {
         val targetDate = date ?: LocalDate.now()
         val menus = menuService.getDailyMenuByRestaurant(nameId, targetDate)
         return ResponseEntity.ok(menus)

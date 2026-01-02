@@ -1,8 +1,7 @@
 package com.choieunseok.khumeal.model.dto
 
-data class HighlightRequest(
+data class UserHighlightRequest(
     val userId: String,
-    val menuInfoUuid: String,
-    val menuIndex: Int,
+    val menuItemUuid: String,
     val isHighlighted: Boolean
 )

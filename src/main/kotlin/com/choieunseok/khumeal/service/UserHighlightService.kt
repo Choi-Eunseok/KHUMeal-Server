@@ -1,6 +1,6 @@
 package com.choieunseok.khumeal.service
 
-import com.choieunseok.khumeal.model.dto.HighlightRequest
+import com.choieunseok.khumeal.model.dto.UserHighlightRequest
 import com.choieunseok.khumeal.model.dto.UserHighlightResponse
 import com.choieunseok.khumeal.model.entity.UserHighlightEntity
 import com.choieunseok.khumeal.model.entity.UserHighlightId
@@ -19,17 +19,15 @@ class UserHighlightService(
 ) {
 
     @Transactional
-    fun saveHighlight(request: HighlightRequest) {
+    fun saveHighlight(request: UserHighlightRequest) {
         val id = UserHighlightId(
             userId = request.userId,
-            menuItemUuid = UUID.fromString(request.menuInfoUuid),
-            menuIndex = request.menuIndex
+            menuItemUuid = UUID.fromString(request.menuItemUuid)
         )
 
         if (request.isHighlighted) {
             val user = userRepository.getReferenceById(request.userId)
             val menuItem = menuItemRepository.getReferenceById(id.menuItemUuid)
-
             userHighlightRepository.save(UserHighlightEntity(id, user, menuItem))
         } else {
             userHighlightRepository.deleteById(id)
@@ -37,19 +35,13 @@ class UserHighlightService(
     }
 
     @Transactional(readOnly = true)
-    fun getHighlightsForUser(userId: String, menuUuids: List<String>): List<UserHighlightResponse> {
+    fun getHighlightsForUser(userId: String, menuUuids: List<String>): UserHighlightResponse {
         val uuidList = menuUuids.map { UUID.fromString(it) }
-
         val entities = userHighlightRepository.findAllByUserIdAndMenuItemUuids(userId, uuidList)
 
-        return entities
-            .groupBy { it.id.menuItemUuid }
-            .map { (uuid, highlights) ->
-                UserHighlightResponse(
-                    menuInfoUuid = uuid.toString(),
-                    highlightedIndices = highlights.map { it.id.menuIndex }
-                )
-            }
+        return UserHighlightResponse(
+            highlightedUuids = entities.map { it.id.menuItemUuid.toString() }
+        )
     }
 
 }

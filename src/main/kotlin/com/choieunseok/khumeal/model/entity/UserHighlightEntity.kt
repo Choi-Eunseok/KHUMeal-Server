@@ -10,10 +10,7 @@ data class UserHighlightId(
     val userId: String = "",
 
     @Column(name = "menu_item_uuid")
-    val menuItemUuid: UUID = UUID.randomUUID(),
-
-    @Column(name = "menu_index")
-    val menuIndex: Int = 0
+    val menuItemUuid: UUID = UUID.randomUUID()
 ) : Serializable
 
 @Entity

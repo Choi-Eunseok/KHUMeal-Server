@@ -1,6 +1,6 @@
 package com.choieunseok.khumeal.controller
 
-import com.choieunseok.khumeal.model.dto.HighlightRequest
+import com.choieunseok.khumeal.model.dto.UserHighlightRequest
 import com.choieunseok.khumeal.model.dto.UserHighlightResponse
 import com.choieunseok.khumeal.model.dto.UserSyncRequest
 import com.choieunseok.khumeal.service.UserHighlightService
@@ -22,7 +22,7 @@ class UserController(
     }
 
     @PostMapping("/highlight")
-    fun updateHighlight(@RequestBody request: HighlightRequest): ResponseEntity<String> {
+    fun updateHighlight(@RequestBody request: UserHighlightRequest): ResponseEntity<String> {
         userHighlightService.saveHighlight(request)
         return ResponseEntity.ok("Highlight updated")
     }
@@ -31,7 +31,7 @@ class UserController(
     fun getHighlights(
         @PathVariable userId: String,
         @RequestParam menuUuids: List<String>
-    ): ResponseEntity<List<UserHighlightResponse>> {
+    ): ResponseEntity<UserHighlightResponse> {
         val results = userHighlightService.getHighlightsForUser(userId, menuUuids)
         return ResponseEntity.ok(results)
     }
