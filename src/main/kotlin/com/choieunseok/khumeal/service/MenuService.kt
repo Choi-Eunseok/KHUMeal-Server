@@ -56,7 +56,7 @@ class MenuService(
                 MenuResponse(
                     restaurantName = infos.first().menuInfoMeta.menuInfoName.name ?: "",
                     date = date.toString(),
-                    menuItems = infos.filter { it.hasValidCorner() }
+                    menuInfos = infos.filter { it.hasValidCorner() }
                         .map { info ->
                             MenuInfo(
                                 menuInfoUuid = info.menuInfoUuid.toString(),
