@@ -40,7 +40,7 @@ class MenuSyncService(
     }
 
     private fun syncSingleRestaurant(infoName: MenuInfoNameEntity) {
-        val recentMenuInfoMeta = metaRepo.findFirstByMenuInfoNameOrderByBaseDateDesc(infoName)
+        val recentMenuInfoMeta = metaRepo.findFirstByMenuInfoNameOrderByCreatedAtDesc(infoName)
 
         val startBoardId = recentMenuInfoMeta?.boardId ?: ""
 

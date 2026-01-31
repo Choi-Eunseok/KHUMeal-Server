@@ -11,6 +11,6 @@ import java.util.UUID
 @Repository
 interface MenuInfoMetaRepository : JpaRepository<MenuInfoMetaEntity, UUID> {
 
-    fun findFirstByMenuInfoNameOrderByBaseDateDesc(menuInfoName: MenuInfoNameEntity): MenuInfoMetaEntity?
+    fun findFirstByMenuInfoNameOrderByCreatedAtDesc(menuInfoName: MenuInfoNameEntity): MenuInfoMetaEntity?
 
 }
