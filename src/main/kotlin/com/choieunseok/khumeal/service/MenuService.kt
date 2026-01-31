@@ -17,7 +17,7 @@ class MenuService(
 
     @Transactional(readOnly = true)
     fun getDailyMenuByRestaurant(nameId: Int, date: LocalDate): List<MenuInfo> {
-        val infos = infoRepo.findByNameIdAndDateOrderByCreatedAt(nameId, date)
+        val infos = infoRepo.findAllByLatestMetaAndDate(nameId, date)
 
         return infos.filter { it.hasValidCorner() }
             .map { info ->
@@ -49,7 +49,7 @@ class MenuService(
     }
 
     private fun getMenusInRange(nameId: Int, startDate: LocalDate, endDate: LocalDate): List<MenuResponse> {
-        val allInfos = infoRepo.findByNameIdAndDateRangeOrderByCreatedAt(nameId, startDate, endDate)
+        val allInfos = infoRepo.findAllByLatestMetaAndDateRange(nameId, startDate, endDate)
 
         return allInfos.groupBy { it.date }
             .map { (date, infos) ->
