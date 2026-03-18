@@ -27,10 +27,10 @@ class UserController(
         return ResponseEntity.ok("Highlight updated")
     }
 
-    @GetMapping("/{userId}/highlights")
+    @PostMapping("/{userId}/highlights")
     fun getHighlights(
         @PathVariable userId: String,
-        @RequestParam menuUuids: List<String>
+        @RequestBody menuUuids: List<String>
     ): ResponseEntity<UserHighlightResponse> {
         val results = userHighlightService.getHighlightsForUser(userId, menuUuids)
         return ResponseEntity.ok(results)
