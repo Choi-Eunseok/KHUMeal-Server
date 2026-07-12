@@ -1,10 +1,11 @@
 package com.choieunseok.khumeal.model.entity
 
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.type.descriptor.jdbc.BinaryJdbcType
 import java.util.UUID
 
+/**
+ * 코너 메뉴 안의 개별 메뉴 항목(음식 하나).
+ */
 @Entity
 @Table(name = "menu_item")
 class MenuItemEntity(
@@ -13,12 +14,12 @@ class MenuItemEntity(
     val menuItemUuid: UUID = UUID.randomUUID(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_info_uuid", nullable = false)
-    val menuInfo: MenuInfoEntity,
+    @JoinColumn(name = "corner_menu_uuid", nullable = false)
+    val cornerMenu: CornerMenuEntity,
 
-    @Column(name = "index", nullable = false)
-    val index: Int,
+    @Column(name = "item_index", nullable = false)
+    val itemIndex: Int,
 
-    @Column(name = "menu_item", nullable = false)
-    val menuItem: String
+    @Column(name = "item_name", nullable = false)
+    val itemName: String
 ) : BaseTimeEntity()

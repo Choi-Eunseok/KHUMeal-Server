@@ -1,6 +1,6 @@
 package com.choieunseok.khumeal.controller
 
-import com.choieunseok.khumeal.repository.MenuInfoRepository
+import com.choieunseok.khumeal.repository.CornerMenuRepository
 import org.springframework.http.CacheControl
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -14,18 +14,18 @@ import kotlin.NoSuchElementException
 
 @RestController
 @RequestMapping("/api/")
-class MenuImageController(private val menuInfoRepository: MenuInfoRepository) {
+class MenuImageController(private val cornerMenuRepository: CornerMenuRepository) {
 
     @GetMapping("/image/{uuid}", produces = [MediaType.IMAGE_JPEG_VALUE])
     fun getMenuImage(@PathVariable uuid: UUID): ResponseEntity<ByteArray> {
-        val menuInfo = menuInfoRepository.findById(uuid)
+        val cornerMenu = cornerMenuRepository.findById(uuid)
             .orElseThrow { NoSuchElementException("이미지를 찾을 수 없습니다.") }
 
         return ResponseEntity.ok()
             .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS)) // 24시간 동안 클라이언트 캐싱
-            .eTag(menuInfo.menuInfoUuid.toString())
+            .eTag(cornerMenu.cornerMenuUuid.toString())
             .contentType(MediaType.IMAGE_JPEG)
-            .body(menuInfo.image)
+            .body(cornerMenu.image)
     }
 
 }

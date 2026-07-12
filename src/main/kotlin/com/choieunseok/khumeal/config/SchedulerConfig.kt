@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled
 @EnableScheduling
 class SchedulerConfig(private val menuSyncService: MenuSyncService) {
 
-    @Scheduled(cron = "0 0 * * * SAT,SUN")
+    @Scheduled(cron = "0 0 * * * SAT,SUN,MON")
     fun autoMenuSync() {
         menuSyncService.syncAllMenus()
     }

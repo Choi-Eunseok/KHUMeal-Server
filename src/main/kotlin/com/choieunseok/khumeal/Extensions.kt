@@ -1,6 +1,6 @@
 package com.choieunseok.khumeal
 
-import com.choieunseok.khumeal.model.entity.MenuInfoEntity
+import com.choieunseok.khumeal.model.entity.CornerMenuEntity
 import java.time.LocalDate
 
 fun getWeekRange(baseDate: LocalDate): Pair<LocalDate, LocalDate> {
@@ -12,8 +12,8 @@ fun getWeekRange(baseDate: LocalDate): Pair<LocalDate, LocalDate> {
 
 private val INVALID_CORNER_KEYWORDS = setOf("One", "교직원 비빔코너", "학생식당 중식 Self")
 
-fun MenuInfoEntity.hasValidCorner(): Boolean {
-    val name = this.cornerInfo.trim()
+fun CornerMenuEntity.hasValidCorner(): Boolean {
+    val name = this.cornerName.trim()
 
     return when {
         name.isBlank() -> false

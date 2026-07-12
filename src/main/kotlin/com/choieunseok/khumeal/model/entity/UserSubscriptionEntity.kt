@@ -7,7 +7,7 @@ import java.time.LocalTime
 @Embeddable
 data class UserSubscriptionId(
     val userId: String = "",
-    val menuInfoNameId: Int = 0
+    val restaurantId: Int = 0
 ) : Serializable
 
 @Entity
@@ -21,10 +21,10 @@ class UserSubscriptionEntity(
     @JoinColumn(name = "user_id")
     val user: UsersEntity,
 
-    @MapsId("menuInfoNameId")
+    @MapsId("restaurantId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_info_name_id")
-    val menuInfoName: MenuInfoNameEntity,
+    @JoinColumn(name = "restaurant_id")
+    val restaurant: RestaurantEntity,
 
     @Column(name = "time")
     val time: LocalTime? = null

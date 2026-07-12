@@ -1,0 +1,22 @@
+package com.choieunseok.khumeal.config
+
+import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.converter.StringHttpMessageConverter
+import org.springframework.web.client.RestTemplate
+import java.time.Duration
+
+@Configuration
+class HttpClientConfig {
+
+    @Bean
+    fun restTemplate(builder: RestTemplateBuilder): RestTemplate =
+        builder
+            .setConnectTimeout(Duration.ofSeconds(5))
+            .setReadTimeout(Duration.ofSeconds(10))
+            .build()
+            .apply {
+                messageConverters.add(0, StringHttpMessageConverter(Charsets.UTF_8))
+            }
+}
