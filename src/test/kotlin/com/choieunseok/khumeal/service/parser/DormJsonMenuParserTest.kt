@@ -35,13 +35,14 @@ class DormJsonMenuParserTest {
     }
 
     @Test
-    fun `미운영 요일은 코너가 비어 있다`() {
+    fun `미운영 요일도 미운영 항목으로 파싱된다`() {
         val days = parser.parseWeekly(json)
 
         val saturday = days.first { it.date == LocalDate.of(2026, 7, 4) }
         val sunday = days.first { it.date == LocalDate.of(2026, 7, 5) }
-        assertTrue(saturday.corners.isEmpty())
-        assertTrue(sunday.corners.isEmpty())
+        assertEquals(listOf("조식", "중식", "석식"), saturday.corners.map { it.cornerName })
+        assertTrue(saturday.corners.all { it.items == listOf("미운영") })
+        assertTrue(sunday.corners.all { it.items == listOf("미운영") })
     }
 
     @Test

@@ -117,7 +117,12 @@ class HufsHtmlMenuParser(
 
                 val items = td.select("li")
                     .map { it.text().trim() }
-                    .filter { it.isNotBlank() && !isNoise(it) }
+                    .filter { it.isNotBlank() }
+                    .toMutableList()
+
+                // 칼로리(<p class="calorie">620Kcal)와 가격(<p class="pay">4,000원)도 항목에 덧붙인다
+                td.selectFirst("p.calorie")?.text()?.trim()?.takeIf { it.isNotBlank() }?.let { items.add(it) }
+                td.selectFirst("p.pay")?.text()?.trim()?.takeIf { it.isNotBlank() }?.let { items.add(it) }
 
                 if (items.isNotEmpty()) {
                     cornersByDate.getValue(date).add(ParsedCorner(cornerName, items))
@@ -126,18 +131,5 @@ class HufsHtmlMenuParser(
         }
 
         return cornersByDate.map { (date, corners) -> ParsedDailyMenu(date, corners) }
-    }
-
-    private fun isNoise(item: String): Boolean =
-        NOTICE_KEYWORDS.any { item.contains(it) } || isOriginLabel(item)
-
-    // 원산지 표기: "돈육:국내산", "우육:호주산", "우갈비:미국,우:호주" 형태
-    private fun isOriginLabel(item: String): Boolean =
-        item.contains(":") && ORIGIN_HINTS.any { item.contains(it) }
-
-    companion object {
-        // 방학 공지: "방학중에는 / 조식이 없습니다 / 스낵코너를 / 이용하세요"
-        private val NOTICE_KEYWORDS = listOf("없습니다", "이용하세요", "방학", "스낵코너")
-        private val ORIGIN_HINTS = listOf("산", "국내", "미국", "호주", "중국", "수입", "원산지")
     }
 }

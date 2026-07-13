@@ -97,7 +97,7 @@ class DormJsonMenuParser(
                 val corners = MEAL_FIELDS.mapNotNull { (field, cornerName) ->
                     val raw = week.path("fo_menu_$field$dayIndex").asText("").trim()
                     val items =
-                        if (raw.isBlank() || raw == CLOSED) emptyList()
+                        if (raw.isBlank()) emptyList()
                         else raw.split(",").map { it.trim() }.filter { it.isNotBlank() }
                     if (items.isEmpty()) null else ParsedCorner(cornerName, items)
                 }
@@ -107,7 +107,6 @@ class DormJsonMenuParser(
     }
 
     companion object {
-        private const val CLOSED = "미운영"
         private val MEAL_FIELDS = listOf("mor" to "조식", "lun" to "중식", "eve" to "석식")
     }
 }

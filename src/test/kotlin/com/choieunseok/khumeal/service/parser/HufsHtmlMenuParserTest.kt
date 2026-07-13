@@ -25,15 +25,18 @@ class HufsHtmlMenuParserTest {
     fun `운영일은 코너별 메뉴로 나뉜다`() {
         val monday = parser.parseTable(html).first { it.date == LocalDate.of(2026, 7, 6) }
 
-        // 조식은 방학 공지뿐이라 제외되고 중식(1)/중식(2)/중식(면)/석식만 남는다
-        assertEquals(listOf("중식(1)", "중식(2)", "중식(면)", "석식"), monday.corners.map { it.cornerName })
+        assertEquals(listOf("조식", "중식(1)", "중식(2)", "중식(면)", "석식"), monday.corners.map { it.cornerName })
 
         val lunch1 = monday.corners.first { it.cornerName == "중식(1)" }
-        assertEquals(listOf("피자돈가스", "크림스프", "곁들임야채", "샐러드", "김치"), lunch1.items)
+        // 메뉴 항목 뒤에 칼로리·가격이 붙는다
+        assertEquals(
+            listOf("피자돈가스", "크림스프", "곁들임야채", "샐러드", "김치", "돈육:국내산", "774Kcal", "4,000원"),
+            lunch1.items
+        )
     }
 
     @Test
-    fun `no-menu 셀과 방학 공지만 있는 날은 코너가 비어 있다`() {
+    fun `전 셀이 no-menu인 날(주말)은 코너가 비어 있다`() {
         val days = parser.parseTable(html)
 
         val sunday = days.first { it.date == LocalDate.of(2026, 7, 5) }
@@ -43,13 +46,20 @@ class HufsHtmlMenuParserTest {
     }
 
     @Test
-    fun `원산지 표기는 메뉴 항목에서 제외한다`() {
+    fun `칼로리와 가격이 항목 끝에 붙는다`() {
         val tuesdayDinner = parser.parseTable(html)
             .first { it.date == LocalDate.of(2026, 7, 7) }
             .corners.first { it.cornerName == "석식" }
 
-        // "우갈비:미국,우:호주" 원산지 라벨이 제거된다
-        assertEquals(listOf("갈비탕", "도라지오이생채", "과일샐러드", "깍두기"), tuesdayDinner.items)
+        assertEquals(
+            listOf("갈비탕", "도라지오이생채", "과일샐러드", "깍두기", "우갈비:미국,우:호주", "659Kcal", "4,000원"),
+            tuesdayDinner.items
+        )
+        // 칼로리가 비어 있는 셀은 가격만 붙는다
+        val meonMenu = parser.parseTable(html)
+            .first { it.date == LocalDate.of(2026, 7, 7) }
+            .corners.first { it.cornerName == "중식(면)" }
+        assertEquals(listOf("냉면", "520Kcal", "3,000원"), meonMenu.items)
     }
 
     @Test
