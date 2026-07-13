@@ -24,4 +24,11 @@ class MenuGrpcClient(
             .build()
         return menuStub.parseMenu(request)
     }
+
+    fun generatePlaceholder(text: String): ByteArray {
+        val request = GeneratePlaceholderRequest.newBuilder()
+            .setText(text)
+            .build()
+        return menuStub.generatePlaceholder(request).image.toByteArray()
+    }
 }

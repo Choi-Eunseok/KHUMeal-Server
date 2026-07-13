@@ -29,7 +29,7 @@ class CornerMenuEntity(
     @Lob
     @JdbcType(BinaryJdbcType::class)
     @Column(name = "image")
-    val image: ByteArray? = null,
+    var image: ByteArray? = null,
 
     @OneToMany(mappedBy = "cornerMenu", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     val menuItems: List<MenuItemEntity> = mutableListOf()

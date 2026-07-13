@@ -30,7 +30,7 @@ class MenuService(
                         menuItemName = itemEntity.itemName
                     )
                 },
-                imageUrl = if (corner.image != null) "/api/image/${corner.cornerMenuUuid}" else null
+                imageUrl = "/api/image/${corner.cornerMenuUuid}"
             )
         }
     }
@@ -67,7 +67,7 @@ class MenuService(
                                         menuItemName = itemEntity.itemName
                                     )
                                 },
-                                imageUrl = if (corner.image != null) "/api/image/${corner.cornerMenuUuid}" else null
+                                imageUrl = "/api/image/${corner.cornerMenuUuid}"
                             )
                         }
                 )

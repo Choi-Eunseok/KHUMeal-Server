@@ -32,7 +32,16 @@ message ParseMenuResponse {
   repeated Menu menu = 1;
 }
 
+message GeneratePlaceholderRequest {
+  string text = 1;
+}
+
+message GeneratePlaceholderResponse {
+  bytes image = 1;
+}
+
 service MenuService {
   rpc FindRecentMenu(FindRecentMenuRequest) returns (FindRecentMenuResponse);
   rpc ParseMenu(ParseMenuRequest) returns (ParseMenuResponse);
+  rpc GeneratePlaceholder(GeneratePlaceholderRequest) returns (GeneratePlaceholderResponse);
 }
